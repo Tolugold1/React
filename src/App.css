@@ -27,7 +27,8 @@ address {
 .navbar-dark {
   background-color: #512DA8; }
 
-hr {
+.hr {
   width: 800px;
   border: 1px solid #512DA8;
 }
+

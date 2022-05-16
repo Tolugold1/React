@@ -1,11 +1,15 @@
 import React from 'react';
 import Main from './components/MainComponents';
+import { BrowserRouter } from 'react-router-dom';
+
 
 const App = () => {
   return(
-    <div>
-      <Main />
-    </div>
+    <BrowserRouter>
+      <div>
+        <Main />
+      </div>
+    </BrowserRouter>
   )
 }
 
