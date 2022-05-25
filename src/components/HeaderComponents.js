@@ -42,7 +42,7 @@ class Header extends React.Component {
             </NavbarBrand>
             <NavbarToggler onClick={this.toggleNav} />
             <Collapse isOpen={this.state.isNavOpen} navbar>
-              <Nav navbar>
+              <Nav className='Navi_link' navbar>
                 <NavItem>
                   <NavLink className='nav-link' to='/Home'><span className='fa fa-home fa-lg'></span> Home </NavLink>
                 </NavItem>
@@ -56,7 +56,7 @@ class Header extends React.Component {
                   <NavLink className='nav-link' to='/Contactus'><span className='fa fa-address-card-o fa-lg'></span> Contact us </NavLink>
                 </NavItem>
               </Nav>
-              <Nav className="ml-auto" navbar>
+              <Nav className="ml-auto Navi_link2" navbar>
                 <NavItem>
                   <Button outline onClick={this.toggleModal}>
                     <span className="fa fa-sign-in fa-lg"></span> Login

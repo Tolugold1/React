@@ -32,3 +32,14 @@ address {
   border: 1px solid #512DA8;
 }
 
+.Navi_link {
+  text-align: center;
+}
+
+.Navi_link2 {
+  text-align: right;
+}
+
+.spin {
+  text-align: center;
+}

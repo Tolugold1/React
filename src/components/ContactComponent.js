@@ -1,13 +1,13 @@
 import React from 'react';
 import { Breadcrumb, BreadcrumbItem, Button, Label, Row, Col, } from 'reactstrap';
-import { Control, LocalForm, Errors } from 'react-redux-form'
+import { Control, Form, Errors, actions } from 'react-redux-form'
 import { Link } from 'react-router-dom';
 
 const Required = (val) => (val && val.length);
 const MaxLength = (len) => (val) => !(val) || (val.length <= len);
 const MinLength = (len) => (val) => (val && val.length >= len);
 const isNumber = (val) => !isNaN(Number(val));
-const validEmail = (val) => /^[A-Z0-9._+-]+@[A-Z0-9.-]+\.[A-Z]{2, 4}$/i.text(val);
+const validEmail = (val) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val);
 class Contact extends React.Component {
 
   constructor(props) {
@@ -29,7 +29,7 @@ class Contact extends React.Component {
   handleSubmit(value) {
     console.log("Current state is: " + JSON.stringify(value));
     alert('Current State is: ' + JSON.stringify(value));
-
+    this.props.resetFeedBackForm();
   }
 
   
@@ -84,7 +84,7 @@ class Contact extends React.Component {
               <h3>Send us Your Feedback</h3>
             </div>
             <div className='col-12 col-md-9'>
-              <LocalForm onSubmit={(value) => this.handleSubmit(value)}>
+              <Form model="Feedback" onSubmit={(value) => this.handleSubmit(value)}>
                 <Row  className='form-group'>
                   <Label htmlFor='firstName' md={2}>First Name</Label>
                   <Col md={9}>
@@ -108,21 +108,52 @@ class Contact extends React.Component {
                 <Row  className='form-group'>
                   <Label htmlFor='lastName' md={2}>Last Name</Label>
                   <Col md={9}>
-                    <Control.text id='lastName' name='lastName' model='.lastName' placeholder='LastName' className='form-control'></Control.text>
+                    <Control.text id='lastName' name='lastName' model='.lastName' placeholder='LastName' className='form-control'
+                    validators={{Required, MaxLength: MaxLength(15), MinLength: MinLength(3)}}></Control.text>
+                    <Errors 
+                    className="text-danger"
+                    model='.lastName'
+                    show='touched'
+                    messages={{
+                      Required: 'Reduired',
+                      MaxLength: 'Must be greater than 2 characters',
+                      MinLength: 'Must be 15 characters or less',
+                    }}
+                    />
                   </Col>
                 </Row>
 
                 <Row  className='form-group'>
                   <Label htmlFor='telnum' md={2}>Contact tel.</Label>
                   <Col md={9}>
-                    <Control.text id='telnum' name='telnum' model='.telnum' placeholder='Telnum' className='form-control'></Control.text>
+                    <Control.text id='telnum' name='telnum' model='.telnum' placeholder='Telnum' className='form-control'
+                    validators={{Required, MaxLength: MaxLength(11), isNumber}}>
+                    </Control.text>
+                    <Errors 
+                    className="text-danger"
+                    model='.telnum'
+                    show='touched'
+                    messages={{
+                      Required: 'Reduired',
+                      MaxLength: 'Must be greater than 11 characters',
+                      isNumber: 'Enter numbers only'
+                    }}/>
                   </Col>
                   </Row>
 
                 <Row  className='form-group'>
                   <Label htmlFor='email' md={2}>Email</Label>
                   <Col md={9}>
-                    <Control.text id='email' name='email' model='.email' placeholder='email' className='form-control'></Control.text>
+                    <Control.text id='email' name='email' model='.email' placeholder='email' className='form-control' validators={{Required, validEmail}}>
+                    </Control.text>
+                    <Errors 
+                    className="text-danger"
+                    model='.email'
+                    show='touched'
+                    messages={{
+                      Required: 'Reduired',
+                      validEmail: 'invalid email'
+                    }}/>
                   </Col>
                 </Row>
 
@@ -157,7 +188,7 @@ class Contact extends React.Component {
                     </Button>
                   </Col>
                 </Row>
-              </LocalForm>
+              </Form>
             </div>
         </div>
       </div>
