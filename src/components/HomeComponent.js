@@ -1,20 +1,21 @@
 import React from 'react';
 import { Card, CardImg, CardTitle, CardBody, CardSubtitle, CardText } from 'reactstrap';
 import { Loading } from './LoadingComponent';
+import { baseUrl } from '../shared/baseUrl'
 
-function RenderCard({item, isLoading, errMess, promoErrMess, promoIsLoading}) {
-  if (isLoading || promoIsLoading) {
+function RenderCard({item, isLoading, errMess, promoErrMess, promoIsLoading, leaderIsLoading, leaderErrMess}) {
+  if (isLoading || promoIsLoading || leaderIsLoading) {
     return(
       <Loading />
     )
-  } else if (errMess || promoErrMess) {
+  } else if (errMess || promoErrMess || leaderErrMess) {
     return(
       <h4>{errMess}</h4>
     );
   } else if (item) {
     return(
       <Card>
-        <CardImg src={item.image} alt={item.name}></CardImg>
+        <CardImg src={baseUrl + item.image} alt={item.name}></CardImg>
         <CardBody>
           <CardTitle header={item.name}>{item.name}</CardTitle>
           {item.designation ? <CardSubtitle className='visually hidden'>{item.designation}</CardSubtitle> : null}
@@ -37,7 +38,7 @@ const Home = (props) => {
           <RenderCard item={props.promotion} promoIsLoading={props.promotionIsLoading} errMess={props.promotionErrMess}/>
         </div>
         <div className='col-12 col-md m-1'>
-          <RenderCard item={props.leaders} />
+          <RenderCard item={props.leaders} leaderIsLoading={props.leaderIsLoading} leaderErrMess={props.leaderErrMess}/>
         </div>
       </div>
     </div>

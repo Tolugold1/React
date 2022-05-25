@@ -1,25 +1,45 @@
 import React from 'react';
 import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, Media } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { baseUrl } from '../shared/baseUrl';
+import { Loading } from './LoadingComponent';
+
+function RenderLeader({item, leaderIsLoading, leaderErrMess}) {
+  if (leaderIsLoading) {
+    return(
+      <Loading />
+    )
+  } else if (leaderErrMess) {
+    return(
+      <h4>{leaderErrMess}</h4>
+    );
+  } else if (item) {
+    return(
+      <div>
+        {item.leaders.map((Leader) => {
+          return (
+            <div key={Leader.id}>
+              <Media tag='li'>
+                <Media left top>
+                  <Media object src={baseUrl + Leader.image} alt={Leader.name} />
+                </Media>
+                <Media body className='ml-5'>
+                  <Media header={Leader.name} tag='h3'>{Leader.name}</Media>
+                  <h5>{Leader.designation}</h5>
+                  <p>{Leader.description}</p>
+                </Media>
+              </Media>
+            </div>
+          );
+        })
+        }
+      </div>
+    )
+  }
+}
+
 
 function About(props) {
-
-  const RenderLeader = props.leaders.map((Leader) => {
-    return (
-      <div key={Leader.id}>
-        <Media tag='li'>
-          <Media left top>
-            <Media object src={Leader.image} alt={Leader.name} />
-          </Media>
-          <Media body className='ml-5'>
-            <Media header={Leader.name} tag='h3'>{Leader.name}</Media>
-            <h5>{Leader.designation}</h5>
-            <p>{Leader.description}</p>
-          </Media>
-        </Media>
-      </div>
-    );
-  });
 
   return(
     <div className="container">
@@ -76,9 +96,7 @@ function About(props) {
           <h2>Corporate Leadership</h2>
         </div>
         <div className="col-12 mt-3">
-          <Media list>
-            { RenderLeader }
-          </Media>
+          <RenderLeader item={props.leaders} leaderIsLoading={props.leaderIsLoading} leaderErrMess={props.leaderErrMess}/>
         </div>
       </div>
     </div>

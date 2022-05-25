@@ -1,6 +1,5 @@
 import * as ActionType from './ActionType';
-import { DISHES } from '../shared/dishes';
-import { PROMOTIONS } from '../shared/Promotion'
+import { baseUrl } from '../shared/baseUrl';
 
 export const Add_Comment = (DishId, rating, author, comment) => ({
   type: ActionType.ADD_COMMENT,
@@ -12,12 +11,12 @@ export const Add_Comment = (DishId, rating, author, comment) => ({
   }
 });
 
-export const fetchDishes = () => (dispatch) => {
+export const fetchDishes = () => async (dispatch) => {
   dispatch(dishesLoading(true));
 
-  setTimeout(() => {
-    dispatch(addDishes(DISHES))
-  }, 2000)
+  return fetch(baseUrl + 'dishes')
+  .then(response => response.json())
+  .then(dishes => {dispatch(addDishes(dishes))})
 }
 
 export const dishesLoading = () => ({
@@ -34,12 +33,12 @@ export const addDishes = (dishes) => ({
   payload: dishes
 })
 
-export const fetchPromotion = ()  => (dispatch) => {
+export const fetchPromotion = ()  => async (dispatch) => {
   dispatch(promotionLoading(true));
 
-  setTimeout(() => {
-    dispatch(add_promotion(PROMOTIONS))
-  },2000)
+  return fetch(baseUrl + 'promotions')
+  .then(response => response.json())
+  .then(promotions => {dispatch(add_promotion(promotions))})
 }
 
 export const promotionLoading = () => ({
@@ -54,4 +53,44 @@ export const promotionFailed = (errMess) => ({
 export const add_promotion = (promotion) => ({
   type: ActionType.ADD_PROMOTION,
   payload: promotion
+})
+
+export const fetchComments = ()  => async (dispatch) => {
+
+  return fetch(baseUrl + 'comments')
+  .then(response => response.json())
+  .then(comments => {dispatch(AddComments(comments))})
+}
+
+export const comment_failed = (errMess) => ({
+  type: ActionType.COMMENTS_FAILED,
+  payload: errMess
+})
+
+export const AddComments = (comment) => ({
+  type: ActionType.ADD_COMMENTS,
+  payload: comment
+})
+
+
+export const fetchLeaders = () => async (dispatch) => {
+  dispatch(LeadersLoading(true));
+
+  return fetch(baseUrl + 'leaders')
+  .then(response => response.json())
+  .then(leaders => {dispatch(addLeaders(leaders))})
+}
+
+export const LeadersLoading = () => ({
+  type: ActionType.LEADERS_LOADING
+})
+
+export const leadersFailed = (errmess) => ({
+  type: ActionType.LEADERS_FAILED,
+  payload: errmess
+})
+
+export const addLeaders = (leaders) => ({
+  type: ActionType.ADD_LEADERS,
+  payload: leaders
 })
