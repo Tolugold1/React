@@ -1,5 +1,6 @@
 import * as ActionType from './ActionType';
-import { DISHES } from '../shared/dishes'
+import { DISHES } from '../shared/dishes';
+import { PROMOTIONS } from '../shared/Promotion'
 
 export const Add_Comment = (DishId, rating, author, comment) => ({
   type: ActionType.ADD_COMMENT,
@@ -31,4 +32,26 @@ export const dishesFailed = (errmess) => ({
 export const addDishes = (dishes) => ({
   type: ActionType.ADD_DISHES,
   payload: dishes
+})
+
+export const fetchPromotion = ()  => (dispatch) => {
+  dispatch(promotionLoading(true));
+
+  setTimeout(() => {
+    dispatch(add_promotion(PROMOTIONS))
+  },2000)
+}
+
+export const promotionLoading = () => ({
+  type: ActionType.PROMOTION_LOADING
+})
+
+export const promotionFailed = (errMess) => ({
+  type: ActionType.PROMOTION_FAILED,
+  payload: errMess
+})
+
+export const add_promotion = (promotion) => ({
+  type: ActionType.ADD_PROMOTION,
+  payload: promotion
 })
