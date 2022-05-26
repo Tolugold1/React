@@ -3,7 +3,7 @@ import { Card, CardImg, CardTitle, CardBody, CardSubtitle, CardText } from 'reac
 import { Loading } from './LoadingComponent';
 import { baseUrl } from '../shared/baseUrl'
 
-function RenderCard({item, isLoading, errMess, promoErrMess, promoIsLoading, leaderIsLoading, leaderErrMess}) {
+function RenderCard({item, isLoading, errMess, promoErrMess, promoIsLoading, leaderIsLoading, leaderErrMess }) {
   if (isLoading || promoIsLoading || leaderIsLoading) {
     return(
       <Loading />
@@ -38,7 +38,7 @@ const Home = (props) => {
           <RenderCard item={props.promotion} promoIsLoading={props.promotionIsLoading} errMess={props.promotionErrMess}/>
         </div>
         <div className='col-12 col-md m-1'>
-          <RenderCard item={props.leaders} leaderIsLoading={props.leaderIsLoading} leaderErrMess={props.leaderErrMess}/>
+          <RenderCard item={props.leaders} leaderIsLoading={props.leaderIsLoading} errMess={props.leaderErrMess}/>
         </div>
       </div>
     </div>

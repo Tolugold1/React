@@ -45,9 +45,11 @@ class Main extends React.Component {
           dish={this.props.dishes.dishes.filter((dish) => dish.featured)[0]}
           dishesLoading={this.props.dishes.isLoading}
           dishesErrMess={this.props.dishes.errMess}
+
           promotion={this.props.promotion.promotion.filter((promo) => promo.featured)[0]}
           promotionIsLoading={this.props.promotion.promoIsLoading}
           promotionErrMess={this.props.promotion.promoErrMess}
+
           leaders={this.props.leaders.leaders.filter((Leaders) => Leaders.featured)[0]}
           leaderIsLoading={this.props.leaders.leaderIsLoading}
           leaderErrMess={this.props.leaders.leaderErrMess}
