@@ -25,7 +25,7 @@ function RenderDish({dishSelected}) {
   }
 };
 
-function RenderComments({array, add_Comment, dishId}) {
+function RenderComments({array, postComment, dishId}) {
   if (array != null)
   {
     return(
@@ -40,7 +40,9 @@ function RenderComments({array, add_Comment, dishId}) {
               </li>
           )})}
         </ul>
-        <CommentForm dishId={dishId} add_Comment={add_Comment}/>
+        <div>
+        <CommentForm dishId={dishId} postComment={postComment}/>
+        </div>
       </div>
     )
   } else {
@@ -85,7 +87,7 @@ const DishDetailComponent = (props) => {
             <RenderDish dishSelected={props.dishSelected}/>
           </div>
           <div className='col-12 col-md-5'>
-            <RenderComments array={props.comments} add_Comment={props.add_Comment} dishId={props.dishSelected.id}/>
+            <RenderComments array={props.comments} postComment={props.postComment} dishId={props.dishSelected.id}/>
           </div>
         </div>
       </div>

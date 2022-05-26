@@ -1,23 +1,24 @@
 import React from 'react';
-import { Button, Modal, ModalHeader, ModalBody, Col, Input, FormGroup, Form, Label, FormFeedback } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, Col, Row, Label, FormFeedback } from 'reactstrap';
+import { LocalForm, Control, Errors } from 'react-redux-form';
 
-
+const required = (val) => (val && val.length);
+const MaxLength = (len) => (val) => !(val) || (val.length <= len);
+const MinLength = (len) => (val) => (val && val.length >= len);
 class CommentForm extends React.Component {
 
   constructor(props) {
     super(props)
 
-    this.state = { 
-      form : {
-        rating: '',
-        author: '',
-        comment: ''
-      },
+    this.state = {
+      rating: '',
+      author: '',
+      comment: '',
       isCommentModalOpen: false,
     }
 
     this.toggleModal = this.toggleModal.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
 
   toggleModal() {
@@ -25,80 +26,62 @@ class CommentForm extends React.Component {
       isCommentModalOpen: !this.state.isCommentModalOpen
     })
   }
-
-  handleChange(event) {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-
-    this.setState({
-      form: {
-        ...this.state.form, [name]: value
-      }
-    })
-  }
+  
 
   handleFormSubmit(values) {
     this.toggleModal();
-    this.props.add_Comment(this.props.dishId, values.rating, values.author, values.comment)
+    this.props.postComment(this.props.dishId, values.rating, values.author, values.comment)
   };
 
-  validator(author) {
-    const errors = {
-      author: ''
-    }
-
-    if (this.state.author && author.length < 3) {
-      errors.author = "Must be greater than two character";
-    } else if (this.state.author && author.length > 15) {
-      errors.author = "Must be 15 characters or less";
-    }
-    return (errors);
-  }
 
   render() {
 
-    const errors = this.validator(this.state.author)
-
     return(
       <div>
-        <Button type='Button' className='btn-outline-secondary' onClick={this.toggleModal}><span className='fa fa-pencil'></span> Submit Comment</Button>
+        <Button type='Button' outline onClick={this.toggleModal}><span className='fa fa-pencil'></span> Submit Comment</Button>
         <Modal isOpen={this.state.isCommentModalOpen} toggle={this.toggleModal}>
           <ModalHeader toggle={this.toggleModal}>Submit Comment</ModalHeader>
           <ModalBody>
-            <Form onSubmit={() => this.handleFormSubmit(this.state.form)}>
-              <FormGroup row>
+            <LocalForm onSubmit={(values) => this.handleFormSubmit(values)}>
+              <Row className='form-group'>
                 <Col md={12}>
                   <Label  htmlFor='rating'>Rating</Label>
-                  <Input type='select' id="rating" name='rating' className='custom-select' value={this.props.rating} onChange={this.handleChange} md={12}>
+                  <Control.select model='.rating' id="rating" name='rating' className='custom-select form-control'  md={12}>
                     <option>1</option>
                     <option>2</option>
                     <option>3</option>
                     <option>4</option>
                     <option>5</option>
-                  </Input>
+                  </Control.select>
                 </Col>
-              </FormGroup>
-              <FormGroup row>
+              </Row>
+              <Row className='form-group'>
                 <Col md={12}>
                   <Label htmlFor='author'>Your Name</Label>
-                  <Input type='text' name='author' id='author' value={this.props.author}
-                  valid={errors.author === ''}
-                  invalid={errors.author !== ''}
-                  onChange={this.handleChange}
+                  <Control.text model='.author' name='author' id='author' className='form-control'
+                  validators={{required, MaxLength: MaxLength(15), MinLength: MinLength(3)}}
                   >
-                  </Input>
-                  <FormFeedback>{errors.author}</FormFeedback>
+                  </Control.text>
+                  <Errors 
+                  className='text-danger'
+                  model='.author'
+                  show='touched'
+                  messages={{
+                    required: 'Fill in your name',
+                    MaxLength: 'Character must be 15 or less',
+                    MinLength: 'Character must the more than 2'
+                  }}
+                  />
                 </Col>
-              </FormGroup>
-              <FormGroup row>
+              </Row>
+              <Row className='form-group'>
                 <Col md={12}>
                   <Label htmlFor='comment'> Comment</Label>
-                  <Input type='textarea'  id='comment' rows='4' name='comment' value={this.props.comment} onChange={this.handleChange}></Input>
+                  <Control.textarea model='.comment'  id='comment' rows='4' name='comment' className='form-control'></Control.textarea>
                 </Col>
-              </FormGroup>
+              </Row>
               <Button type='submit'>Submit</Button>
-            </Form>
+            </LocalForm>
           </ModalBody>
         </Modal>
       </div>
