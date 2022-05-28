@@ -3,6 +3,7 @@ import { Card, CardImg, CardTitle, CardBody, CardSubtitle, CardText } from 'reac
 import { Loading } from './LoadingComponent';
 import { baseUrl } from '../shared/baseUrl'
 
+
 function RenderCard({item, isLoading, errMess, promoErrMess, promoIsLoading, leaderIsLoading, leaderErrMess }) {
   if (isLoading || promoIsLoading || leaderIsLoading) {
     return(
@@ -28,9 +29,12 @@ function RenderCard({item, isLoading, errMess, promoErrMess, promoIsLoading, lea
 
 
 const Home = (props) => {
+
   return(
     <div className='container'>
+      
       <div className='row align-items-start mt-3'>
+        
         <div className='col-12 col-md m-1'>
           <RenderCard item={props.dish} isLoading={props.dishesLoading} errMess={props.dishesErrMess}/>
         </div>
@@ -40,6 +44,7 @@ const Home = (props) => {
         <div className='col-12 col-md m-1'>
           <RenderCard item={props.leaders} leaderIsLoading={props.leaderIsLoading} errMess={props.leaderErrMess}/>
         </div>
+        
       </div>
     </div>
   )
