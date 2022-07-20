@@ -1,6 +1,6 @@
 import React from 'react';
 import { Breadcrumb, BreadcrumbItem, Button, Label, Row, Col, } from 'reactstrap';
-import { Control, LocalForm, Errors } from 'react-redux-form'
+import { Control, Form, Errors, actions } from 'react-redux-form'
 import { Link } from 'react-router-dom';
 
 const Required = (val) => (val && val.length);
@@ -30,8 +30,9 @@ class Contact extends React.Component {
     console.log("Current state is: " + JSON.stringify(value));
     alert('Current State is: ' + JSON.stringify(value));
     this.props.resetFeedBackForm();
+    this.props.postFeedBack(value.firstName, value.lastName, value.telnum, value.email, value.agree, value.contactType, value.messages);
   }
-
+  
   
   render() {
   
@@ -84,7 +85,7 @@ class Contact extends React.Component {
               <h3>Send us Your Feedback</h3>
             </div>
             <div className='col-12 col-md-9'>
-              <LocalForm model="Feedback" onSubmit={(value) => this.handleSubmit(value)}>
+              <Form model="Feedback" onSubmit={(value) => { this.handleSubmit(value)}}>
                 <Row  className='form-group'>
                   <Label htmlFor='firstName' md={2}>First Name</Label>
                   <Col md={9}>
@@ -97,7 +98,7 @@ class Contact extends React.Component {
                     model='.firstName'
                     show='touched'
                     messages={{
-                      Required: 'Reduired',
+                      Required: 'Required',
                       MaxLength: 'Must be greater than 2 characters',
                       MinLength: 'Must be 15 characters or less',
                     }}
@@ -115,7 +116,7 @@ class Contact extends React.Component {
                     model='.lastName'
                     show='touched'
                     messages={{
-                      Required: 'Reduired',
+                      Required: 'Required',
                       MaxLength: 'Must be greater than 2 characters',
                       MinLength: 'Must be 15 characters or less',
                     }}
@@ -134,7 +135,7 @@ class Contact extends React.Component {
                     model='.telnum'
                     show='touched'
                     messages={{
-                      Required: 'Reduired',
+                      Required: 'Required',
                       MaxLength: 'Must be greater than 11 characters',
                       isNumber: 'Enter numbers only'
                     }}/>
@@ -151,7 +152,7 @@ class Contact extends React.Component {
                     model='.email'
                     show='touched'
                     messages={{
-                      Required: 'Reduired',
+                      Required: 'Required',
                       validEmail: 'invalid email'
                     }}/>
                   </Col>
@@ -188,7 +189,7 @@ class Contact extends React.Component {
                     </Button>
                   </Col>
                 </Row>
-              </LocalForm>
+              </Form>
             </div>
         </div>
       </div>

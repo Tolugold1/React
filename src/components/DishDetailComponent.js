@@ -3,7 +3,8 @@ import CommentForm from './CommentForm';
 import { Card, CardBody, CardImg, CardText, CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import {Loading} from './LoadingComponent';
-import { baseUrl } from '../shared/baseUrl'
+import { baseUrl } from '../shared/baseUrl';
+import { FadeTransform, Fade, Stagger } from "react-animation-components";
 
 
 function RenderDish({dishSelected}) {
@@ -11,14 +12,22 @@ function RenderDish({dishSelected}) {
   {
     return(
       <div>
-        <Card>
-          <CardImg width="100%" src={baseUrl + dishSelected.image} alt={dishSelected.name}></CardImg>
-          <CardBody>
-            <CardTitle header={dishSelected.name}>{dishSelected.name}</CardTitle>
-            <CardText>{dishSelected.description}</CardText>
-          </CardBody>
+        <FadeTransform
+          in 
+          transformProps={{
+              exitTransform: "scale(0.5) translateY(-50%)"
+            }}
+        >
+          <Card>
+            <CardImg width="100%" src={baseUrl + dishSelected.image} alt={dishSelected.name}></CardImg>
+            <CardBody>
+              <CardTitle header={dishSelected.name}>{dishSelected.name}</CardTitle>
+              <CardText>{dishSelected.description}</CardText>
+            </CardBody>
           </Card>
+        </FadeTransform>
       </div>
+      
     )
   } else {
     return(<div></div>)
@@ -29,21 +38,27 @@ function RenderComments({array, postComment, dishId}) {
   if (array != null)
   {
     return(
-      <div>
-        <h4>Comments</h4>
-        <ul className='list-unstyled'>
-          {array.map((array) => {
-            return(
-              <li key={array.id}>
-                <p>{array.comment}</p>
-                <p>--{array.author} {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(array.date)))}</p>
-              </li>
-          )})}
-        </ul>
+      
         <div>
-        <CommentForm dishId={dishId} postComment={postComment}/>
+          <h4>Comments</h4>
+          <ul className='list-unstyled'>
+            <Stagger chunk={3} in>
+              {array.map((array) => {
+                return(
+                  <Fade in>
+                    <li key={array.id}>
+                      <p>{array.comment}</p>
+                      <p>--{array.author} {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(array.date)))}</p>
+                    </li>
+                  </Fade>
+              )})}
+            </Stagger>
+          </ul>
+          <div>
+          <CommentForm dishId={dishId} postComment={postComment}/>
+          </div>
         </div>
-      </div>
+      
     )
   } else {
     return(<div></div>)

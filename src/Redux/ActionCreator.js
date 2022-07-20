@@ -6,7 +6,7 @@ export const Add_Comment = (comment) => ({
   payload: comment
 });
 
-export const postComment = (DishId, rating, author, comment) => (dispatch) => {
+export const postComment = (DishId, rating, author, comment) => async (dispatch) => {
   const newComment = {
     DishId: DishId,
     rating: rating,
@@ -185,3 +185,41 @@ export const addLeaders = (leaders) => ({
   type: ActionType.ADD_LEADERS,
   payload: leaders
 })
+
+//post feedback
+
+export const sendFeedback = (firstName, lastName, telnum, email, agree, contactType, messages) => async (dispatch) => {
+  const feeds = {
+    firstName: firstName,
+    lastName: lastName,
+    telnum: telnum,
+    email: email,
+    agree: agree,
+    contactType: contactType,
+    messages: messages
+  }
+  return fetch(baseUrl + 'feedback', {
+    method: "POST",
+    body: JSON.stringify(feeds),
+    headers: {
+      "content-type" : "application/json"
+    },
+    credentials: "same-origin"
+  })
+  .then(response => {
+    if (response.ok) {
+      return (response);
+    } else {
+      var error = new Error("Error" + error.status + ':' + error.statusText);
+      error.response = response;
+      throw error;
+    }
+  },
+  error => {
+    var errMess = new Error(error.message);
+    throw errMess;
+  }
+  )
+  .then(response => response.json())
+  .catch(error => {console.log("Unable to post feedback", error.message); alert("Unable to post feedback: " + error.message)})
+}

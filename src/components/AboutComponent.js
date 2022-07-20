@@ -3,6 +3,7 @@ import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, Media } from 'r
 import { Link } from 'react-router-dom';
 import { baseUrl } from '../shared/baseUrl';
 import { Loading } from './LoadingComponent';
+import { Stagger, Fade } from "react-animation-components"
 
 function RenderLeader({item, leaderIsLoading, errMess}) {
   if (leaderIsLoading) {
@@ -15,24 +16,29 @@ function RenderLeader({item, leaderIsLoading, errMess}) {
     );
   } else if (item) {
     return(
+      
       <div>
-        {item.leaders.map((Leader) => {
-          return (
-            <div key={Leader.id}>
-              <Media tag='li'>
-                <Media left top>
-                  <Media object src={baseUrl + Leader.image} alt={Leader.name} />
-                </Media>
-                <Media body className='ml-5'>
-                  <Media header={Leader.name} tag='h3'>{Leader.name}</Media>
-                  <h5>{Leader.designation}</h5>
-                  <p>{Leader.description}</p>
-                </Media>
-              </Media>
-            </div>
-          );
-        })
-        }
+        <Stagger chunk={5} in>
+          {item.leaders.map((Leader) => {
+            return (
+              <Fade in>
+                <div key={Leader.id}>
+                  <Media tag='li'>
+                    <Media left top>
+                      <Media object src={baseUrl + Leader.image} alt={Leader.name} />
+                    </Media>
+                    <Media body className='ml-5'>
+                      <Media header={Leader.name} tag='h3'>{Leader.name}</Media>
+                      <h5>{Leader.designation}</h5>
+                      <p>{Leader.description}</p>
+                    </Media>
+                  </Media>
+                </div>
+              </Fade>
+            );
+          })
+          }
+        </Stagger>
       </div>
     )
   }

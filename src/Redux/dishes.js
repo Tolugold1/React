@@ -11,6 +11,7 @@ export const Dishes = (state = {isLoading: true, errMess: null, dishes: []}, act
 
     case ActionType.ADD_DISHES:
       return {...state, isLoading: false, errMess: null, dishes: action.payload};
+      
     default:
       return (state);
   }

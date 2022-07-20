@@ -67,3 +67,20 @@ address {
 .menucard:hover {
   transform: scale(1.1, 1.05);
 }
+
+
+.pg-enter {
+  opacity: 0.001;
+}
+.pg-enter-active {
+  opacity: 1;
+  transition: opacity 200ms;
+}
+
+.pg-exit {
+  opacity: 1;
+}
+.pg-exit-active {
+  opacity: 0.001;
+  transition: opacity 200ms;
+}

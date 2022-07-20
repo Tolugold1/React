@@ -8,7 +8,7 @@ import DishDetailComponent from './DishDetailComponent';
 import Home from './HomeComponent';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { postComment, fetchDishes, fetchPromotion, fetchComments, fetchLeaders } from '../Redux/ActionCreator';
+import { sendFeedback, postComment, fetchDishes, fetchPromotion, fetchComments, fetchLeaders } from '../Redux/ActionCreator';
 import { actions } from 'react-redux-form';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
@@ -27,7 +27,8 @@ const mapDispatchToProps = dispatch => ({
   fetchPromotion: () => {dispatch(fetchPromotion())},
   fetchComments: () => {dispatch(fetchComments())},
   fetchLeaders: () => {dispatch(fetchLeaders())},
-  resetFeedBackForm: () => {dispatch(actions.reset('Feedback'))}
+  resetFeedBackForm: () => {dispatch(actions.reset('Feedback'))},
+  postFeedBack: (firstName, lastName, telnum, email, agree, contactType, messages) => dispatch(sendFeedback(firstName, lastName, telnum, email, agree, contactType, messages))
 });
 
 class Main extends React.Component {
@@ -81,7 +82,7 @@ class Main extends React.Component {
               <Route path='/Menu/:dishId' component={DishWithId} />
               <Route path="/Aboutus" component={() => <About leaders={this.props.leaders} leaderIsLoading={this.props.leaders.leaderIsLoading}
               leaderErrMess={this.props.leaders.leaderErrMess}/>} />
-              <Route path="/Contactus" component={() => <Contact resetFeedBackForm={this.props.resetFeedBackForm}/>} />
+              <Route path="/Contactus" component={() => <Contact resetFeedBackForm={this.props.resetFeedBackForm} postFeedBack={this.props.postFeedBack}/>} />
               <Redirect to='/Home'/>
             </Switch>
           </CSSTransition>

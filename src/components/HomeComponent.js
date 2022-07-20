@@ -1,7 +1,8 @@
 import React from 'react';
 import { Card, CardImg, CardTitle, CardBody, CardSubtitle, CardText } from 'reactstrap';
 import { Loading } from './LoadingComponent';
-import { baseUrl } from '../shared/baseUrl'
+import { baseUrl } from '../shared/baseUrl';
+import { FadeTransform } from "react-animation-components";
 
 
 function RenderCard({item, isLoading, errMess, promoErrMess, promoIsLoading, leaderIsLoading, leaderErrMess }) {
@@ -15,14 +16,21 @@ function RenderCard({item, isLoading, errMess, promoErrMess, promoIsLoading, lea
     );
   } else if (item) {
     return(
-      <Card>
-        <CardImg src={baseUrl + item.image} alt={item.name}></CardImg>
-        <CardBody>
-          <CardTitle header={item.name}>{item.name}</CardTitle>
-          {item.designation ? <CardSubtitle className='visually hidden'>{item.designation}</CardSubtitle> : null}
-          <CardText>{item.description}</CardText> 
-        </CardBody>
-      </Card>
+      <FadeTransform
+        in 
+        transformProps={{
+            exitTransform: "scale(0.5) translateY(-50%)"
+          }}
+      >
+        <Card>
+          <CardImg src={baseUrl + item.image} alt={item.name}></CardImg>
+          <CardBody>
+            <CardTitle header={item.name}>{item.name}</CardTitle>
+            {item.designation ? <CardSubtitle className='visually hidden'>{item.designation}</CardSubtitle> : null}
+            <CardText>{item.description}</CardText> 
+          </CardBody>
+        </Card>
+      </FadeTransform>
     )
   }
 };
