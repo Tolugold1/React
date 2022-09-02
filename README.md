@@ -1,1 +1,1 @@
-# React leacture
+# React lecture
